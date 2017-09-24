@@ -1,0 +1,57 @@
+
+
+Start local dynamoDB:
+cd /Applications/dynamodb_local_latest/
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+
+Start mySQL
+cd /usr/local/mysql-5.7.19-macos10.12-x86_64/
+./mysql -u root -p
+almira
+		
+Create mySQL schema	
+CREATE DATABASE URLSHORTNER;
+USE URLSHORTNER
+	
+CREATE TABLE sequence_id (
+     id BIGINT NOT NULL AUTO_INCREMENT,
+     name CHAR(1) NOT NULL,
+     PRIMARY KEY (id)
+);
+
+INSERT INTO sequence_id (name) VALUES
+    ('a'),('b'),('c'),
+    ('d'),('e'),('f');
+
+SELECT * FROM sequence_id;
+
+SELECT AUTO_INCREMENT
+from `information_schema`.`TABLES`
+WHERE   TABLE_NAME = 'sequence_id' AND
+      TABLE_SCHEMA = 'URLSHORTNER';
+      
+CREATE USER 'springboot'@'localhost'
+GRANT ALL ON URLSHORTNER.* TO 'springboot'@'localhost';
+GRANT ALL ON URLSHORTNER TO 'springboot'@'localhost';
+GRANT CREATE ON URLSHORTNER TO 'springboot'@'localhost';
+FLUSH PRIVILEGES;
+	
+      
+mysql.cnf / ini can set the change:
+auto-increment-increment = 2
+auto-increment-offset = 1      
+
+Build 
+
+cd /Users/aniciu/Documents/workspace-sts-3.8.4.RELEASE/url-shortner
+mvn package
+
+References        
+https://www.interviewcake.com/question/java/url-shortener
+https://stackoverflow.com/questions/2671858/distributed-sequence-number-generation
+https://stackoverflow.com/questions/8262863/how-is-the-mysql-auto-increment-step-size-determined
+http://www.baeldung.com/spring-data-dynamodb
+https://aws.amazon.com/blogs/devops/deploying-a-spring-boot-application-on-aws-using-aws-elastic-beanstalk/
+
+
+			
